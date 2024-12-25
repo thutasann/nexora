@@ -1,1 +1,3 @@
-# Revo: The Javascript Library
+# Revo: The Javascript UI Library
+
+A lightweight, production-ready JavaScript library for building user interfaces, supporting JSX
