@@ -1,5 +1,6 @@
 import { render } from '../../framework/renderer';
 import { Revo } from '../../framework/h';
+import Test from './test';
 
 function Counter() {
 	let count = 0;
@@ -23,6 +24,7 @@ function Counter() {
 			<p>Count: {count}</p>
 			<button onclick={increment}>Increment</button>
 			<button onclick={decrement}>Decrement</button>
+			<Test name="Thtua" />
 		</div>
 	);
 

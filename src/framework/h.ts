@@ -1,5 +1,5 @@
 /**
- * Own JSX Factory
+ * Revo JSX Factory
  */
 export function Revo(type: string | Function, props: any, ...children: any[]) {
 	if (typeof type === 'function') {

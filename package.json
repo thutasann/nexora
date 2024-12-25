@@ -8,10 +8,8 @@
 	"module": "dist/revo.esm.js",
 	"types": "dist/index.d.ts",
 	"scripts": {
-		"build": "rollup -c",
-		"test": "jest",
-		"dev": "npx vite",
-		"start": "serve examples/counter-app"
+		"dev": "vite",
+		"build": "vite build"
 	},
 	"keywords": [
 		"javascript",
@@ -21,14 +19,10 @@
 		"frontend",
 		"revo"
 	],
-	"dependencies": {
-		"tslib": "^2.8.1"
-	},
+	"dependencies": {},
 	"devDependencies": {
-		"@rollup/plugin-typescript": "^12.1.2",
 		"@types/jest": "^29.0.0",
 		"jest": "^29.0.0",
-		"rollup": "^4.29.1",
 		"serve": "^14.0.0",
 		"ts-jest": "^29.0.0",
 		"typescript": "^5.0.0",
