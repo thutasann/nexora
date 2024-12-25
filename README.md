@@ -1,1 +1,0 @@
-# The Javascript Frontend Library
