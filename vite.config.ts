@@ -2,13 +2,13 @@ import path from 'path';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-	root: 'examples/revo-app',
+	root: 'examples/nexora-app',
 	build: {
 		outDir: '../../dist',
 		lib: {
 			entry: path.resolve(__dirname, 'src/index.ts'),
-			name: 'Revo',
-			fileName: 'revo',
+			name: 'Nexora',
+			fileName: 'nexora',
 		},
 		rollupOptions: {
 			external: [],
@@ -17,11 +17,11 @@ export default defineConfig({
 	plugins: [],
 	resolve: {
 		alias: {
-			revo: path.resolve(__dirname, 'src/index.ts'),
+			nexora: path.resolve(__dirname, 'src/index.ts'),
 		},
 	},
 	esbuild: {
-		jsxFactory: 'Revo',
+		jsxFactory: 'Nexora',
 		jsxFragment: 'Fragment',
 	},
 });

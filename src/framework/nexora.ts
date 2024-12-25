@@ -14,9 +14,13 @@ declare global {
 }
 
 /**
- * Revo JSX Factory
+ * Nexora JSX Factory
  */
-export function Revo(type: string | Function, props: any, ...children: any[]) {
+export function Nexora(
+	type: string | Function,
+	props: any,
+	...children: any[]
+) {
 	if (typeof type === 'function') {
 		return type({ ...props, children });
 	}

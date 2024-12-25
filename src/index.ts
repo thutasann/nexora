@@ -1,4 +1,4 @@
-import { createElement, render, Revo } from './framework';
+import { createElement, Nexora, render } from './framework';
 import { useState } from './hooks';
 
-export { createElement, render, Revo, useState };
+export { createElement, Nexora, render, useState };

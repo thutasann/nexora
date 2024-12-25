@@ -1,8 +1,8 @@
 {
 	"compilerOptions": {
 		"jsx": "react",
-		"jsxFactory": "Revo",
-		"jsxFragmentFactory": "Revo.Fragment",
+		"jsxFactory": "Nexora",
+		"jsxFragmentFactory": "Nexora.Fragment",
 		"outDir": "./dist",
 		"module": "ESNext",
 		"target": "ESNext",

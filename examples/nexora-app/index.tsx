@@ -1,4 +1,4 @@
-import { render, Revo } from '../../dist';
+import { render, Nexora } from '../../dist';
 import Hello from './components/hello';
 
 function App() {

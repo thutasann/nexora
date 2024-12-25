@@ -4,8 +4,8 @@
 		"module": "ESNext",
 		"moduleResolution": "node",
 		"jsx": "react",
-		"jsxFactory": "Revo", // custom jsx factory
-		"jsxFragmentFactory": "Revo.Fragment", // custom jsx fragment factory
+		"jsxFactory": "Nexora", // custom jsx factory
+		"jsxFragmentFactory": "Nexora.Fragment", // custom jsx fragment factory
 		"strict": true,
 		"esModuleInterop": true,
 		"skipLibCheck": true,

@@ -1,5 +1,5 @@
 {
-	"name": "revo",
+	"name": "nexora",
 	"version": "0.0.0",
 	"description": "A lightweight, production-ready JavaScript library for building user interfaces, supporting JSX.",
 	"type": "module",
@@ -17,7 +17,7 @@
 		"jsx",
 		"ui-library",
 		"frontend",
-		"revo"
+		"nexora"
 	],
 	"dependencies": {},
 	"devDependencies": {
@@ -35,10 +35,10 @@
 	],
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/thutasann/revo.git"
+		"url": "https://github.com/thutasann/nexora.git"
 	},
 	"bugs": {
-		"url": "https://github.com/thutasann/revo/issues"
+		"url": "https://github.com/thutasann/nexora/issues"
 	},
-	"homepage": "https://github.com/thutasann/revo#readme"
+	"homepage": "https://github.com/thutasann/nexora#readme"
 }
