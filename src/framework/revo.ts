@@ -18,15 +18,3 @@ export function Revo(type: string | Function, props: any, ...children: any[]) {
 		},
 	};
 }
-
-declare global {
-	namespace JSX {
-		interface IntrinsicElements {
-			[elemName: string]: any;
-		}
-
-		interface ElementChildrenAttribute {
-			children: {};
-		}
-	}
-}

@@ -1,4 +1,7 @@
-import { VNode } from '../types';
+export type VNode = {
+	type: string | Function;
+	props: Record<string, any>;
+};
 
 export function createElement(
 	type: string | Function,

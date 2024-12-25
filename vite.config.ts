@@ -1,22 +1,23 @@
-import { defineConfig } from 'vite';
 import path from 'path';
+import { defineConfig } from 'vite';
 
 export default defineConfig({
-	root: 'src/examples/counter-app',
+	root: 'examples/counter-app',
 	build: {
+		outDir: '../../dist',
 		lib: {
-			entry: path.resolve(__dirname, 'src/index.ts'), // Main library entry
+			entry: path.resolve(__dirname, 'src/index.ts'),
 			name: 'Revo',
-			fileName: 'revo-framework',
-			formats: ['es', 'cjs'],
+			fileName: 'revo',
 		},
 		rollupOptions: {
 			external: [],
 		},
 	},
+	plugins: [],
 	resolve: {
 		alias: {
-			'revo-framework': path.resolve(__dirname, 'dist/revo-framework.es.js'),
+			revo: path.resolve(__dirname, 'src/index.ts'),
 		},
 	},
 	esbuild: {
