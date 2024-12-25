@@ -1,6 +1,4 @@
-import { createElement } from './core/jsx/createElement';
-import { useState } from './hooks/useState';
-import { render } from './framework/renderer';
-import { Revo } from './framework/revo';
+import { createElement, render, Revo } from './framework';
+import { useState } from './hooks';
 
-export { createElement, render, useState, Revo };
+export { createElement, render, Revo, useState };

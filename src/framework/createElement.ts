@@ -1,4 +1,4 @@
-import { VNode } from '../../types/vdom.type';
+import { VNode } from '../types';
 
 export function createElement(
 	type: string | Function,
