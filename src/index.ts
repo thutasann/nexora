@@ -1,24 +1,21 @@
-import './style.css'
-import typescriptLogo from './typescript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter'
+export function createElement(
+	tag: string,
+	props: Record<string, any>,
+	...children: any[]
+) {
+	return { tag, props, children };
+}
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://www.typescriptlang.org/" target="_blank">
-      <img src="${typescriptLogo}" class="logo vanilla" alt="TypeScript logo" />
-    </a>
-    <h1>Vite + TypeScript</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite and TypeScript logos to learn more
-    </p>
-  </div>
-`
+export function render(vdom: any, container: HTMLElement) {
+	if (typeof vdom === 'string') {
+		container.appendChild(document.createTextNode(vdom));
+		return;
+	}
 
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
+	const el = document.createElement(vdom.tag);
+	Object.entries(vdom.props || {}).forEach(([key, value]) =>
+		el.setAttribute(key, value),
+	);
+	vdom.children.forEach((child: any) => render(child, el));
+	container.appendChild(el);
+}
