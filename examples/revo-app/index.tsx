@@ -1,6 +1,7 @@
 import { render, Revo } from '../../dist';
+import Hello from './components/hello';
 
-function Counter() {
+function App() {
 	let count = 0;
 
 	const increment = () => {
@@ -22,6 +23,8 @@ function Counter() {
 			<p>Count: {count}</p>
 			<button onclick={increment}>Increment</button>
 			<button onclick={decrement}>Decrement</button>
+
+			<Hello name="Thuta Sann" />
 		</div>
 	);
 
@@ -30,5 +33,5 @@ function Counter() {
 
 const app = document.getElementById('app');
 if (app) {
-	render(Counter(), app);
+	render(App(), app);
 }

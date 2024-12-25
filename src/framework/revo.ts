@@ -1,3 +1,18 @@
+declare global {
+	namespace JSX {
+		interface Element {
+			type: string | Function;
+			props: any;
+		}
+		interface IntrinsicElements {
+			[elemName: string]: any;
+		}
+		interface ElementChildrenAttribute {
+			children: {};
+		}
+	}
+}
+
 /**
  * Revo JSX Factory
  */
