@@ -1,5 +1,6 @@
 import { createElement } from './core/jsx/createElement';
-import { render } from './core/rendering/renderer';
 import { useState } from './hooks/useState';
+import { h } from './framework/h';
+import { render } from './framework/renderer';
 
-export { createElement, render, useState };
+export { createElement, render, useState, h };

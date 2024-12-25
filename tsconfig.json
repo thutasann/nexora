@@ -1,16 +1,14 @@
 {
 	"compilerOptions": {
-		"target": "ES5", // Ensures compatibility with older browsers.
-		"module": "ESNext", // Uses ES modules for modern JavaScript workflows.
-		"lib": ["DOM", "ESNext"], // Includes DOM and ESNext APIs.
-		"declaration": true, // Generates `.d.ts` type definition files.
-		"outDir": "dist", // Specifies the output directory for compiled files.
-		"strict": true, // Enables all strict type-checking options.
-		"esModuleInterop": true, // Allows default imports from CommonJS modules.
-		"moduleResolution": "Node", // Resolves modules in a Node.js-like manner.
-		"skipLibCheck": true, // Skips type checking of declaration files.
-		"forceConsistentCasingInFileNames": true // Ensures consistent file name casing.
+		"jsx": "react",
+		"jsxFactory": "Revo",
+		"jsxFragmentFactory": "Fragment",
+		"outDir": "./dist",
+		"module": "ESNext",
+		"target": "ESNext",
+		"moduleResolution": "node",
+		"esModuleInterop": true,
+		"strict": true
 	},
-	"include": ["src/**/*"], // Includes all files in the `src` directory.
-	"exclude": ["node_modules", "dist", "tests"] // Excludes unnecessary directories and files.
+	"include": ["src"]
 }
