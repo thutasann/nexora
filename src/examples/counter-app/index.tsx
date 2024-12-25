@@ -1,5 +1,5 @@
 import { render } from '../../framework/renderer';
-import { Revo } from '../../framework/h';
+import { Revo } from '../../framework/revo';
 import Test from './test';
 
 function Counter() {
