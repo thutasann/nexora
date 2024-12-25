@@ -1,4 +1,4 @@
-# Nexora: The Javascript UI Library
+# Nexora: The Javascript Library for Web User Interfaces
 
 A lightweight, production-ready JavaScript library for building user interfaces, supporting JSX
 
