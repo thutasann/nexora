@@ -15,7 +15,7 @@ npm install nexora
 ## Usage
 
 ```tsx
-import { Nexora, reactive, render } from '../../dist';
+import { Nexora, reactive, render } from 'nexora';
 import { Counter } from './components/counter';
 
 function App() {
