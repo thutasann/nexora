@@ -1,44 +1,45 @@
 {
-	"name": "nexora",
-	"version": "0.0.0",
-	"description": "A lightweight, production-ready JavaScript library for building user interfaces, supporting JSX.",
-	"type": "module",
-	"main": "dist/index.js",
-	"types": "dist/index.d.ts",
-	"scripts": {
-		"dev": "vite",
-		"build": "rm -rf dist && tsc && vite build",
-		"prepublishOnly": "npm run build",
-		"prepare": "npm run build"
-	},
-	"keywords": [
-		"javascript",
-		"typescript",
-		"jsx",
-		"ui-library",
-		"frontend",
-		"nexora"
-	],
-	"dependencies": {},
-	"devDependencies": {
-		"@types/node": "^22.10.2",
-		"typescript": "^5.0.0",
-		"vite": "^6.0.5"
-	},
-	"author": {
-		"name": "Thuta Sann",
-		"email": "thutasann@gmail.com",
-		"url": "https://github.com/thutasann"
-	},
-	"files": [
-		"dist"
-	],
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/thutasann/nexora.git"
-	},
-	"bugs": {
-		"url": "https://github.com/thutasann/nexora/issues"
-	},
-	"homepage": "https://github.com/thutasann/nexora#readme"
+  "name": "nexora",
+  "version": "0.0.0",
+  "description": "A lightweight, production-ready JavaScript library for building user interfaces, supporting JSX.",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "dev": "vite",
+    "build": "rm -rf dist && tsc && vite build",
+    "prepublishOnly": "npm run build",
+    "prepare": "npm run build",
+    "format": "npx prettier . --write -c .prettierrc"
+  },
+  "keywords": [
+    "javascript",
+    "typescript",
+    "jsx",
+    "ui-library",
+    "frontend",
+    "nexora"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "typescript": "^5.0.0",
+    "vite": "^6.0.5"
+  },
+  "author": {
+    "name": "Thuta Sann",
+    "email": "thutasann@gmail.com",
+    "url": "https://github.com/thutasann"
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thutasann/nexora.git"
+  },
+  "bugs": {
+    "url": "https://github.com/thutasann/nexora/issues"
+  },
+  "homepage": "https://github.com/thutasann/nexora#readme"
 }

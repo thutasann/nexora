@@ -1,19 +1,19 @@
 {
-	"compilerOptions": {
-		"target": "ES2020",
-		"module": "ESNext",
-		"moduleResolution": "node",
-		"jsx": "react",
-		"jsxFactory": "Nexora", // custom jsx factory
-		"jsxFragmentFactory": "Nexora.Fragment", // custom jsx fragment factory
-		"strict": true,
-		"esModuleInterop": true,
-		"skipLibCheck": true,
-		"baseUrl": ".",
-		"paths": {
-			"../../dist": ["../../dist"]
-		}
-	},
-	"include": ["./**/*.tsx", "./**/*.ts"],
-	"exclude": ["node_modules"]
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "jsx": "react",
+    "jsxFactory": "Nexora", // custom jsx factory
+    "jsxFragmentFactory": "Nexora.Fragment", // custom jsx fragment factory
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "../../dist": ["../../dist"]
+    }
+  },
+  "include": ["./**/*.tsx", "./**/*.ts"],
+  "exclude": ["node_modules"]
 }

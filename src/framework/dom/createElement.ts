@@ -7,31 +7,23 @@ import { Props, VNode } from '../../core';
  * @param children - The children of the VNode.
  * @returns The created VNode.
  */
-export function createElement(
-	type: string | Function,
-	props: Props | null,
-	...children: any[]
-): VNode {
-	const filteredChildren = children
-		.flat()
-		.filter((child) => child !== null && child !== undefined);
+export function createElement(type: string | Function, props: Props | null, ...children: any[]): VNode {
+  const filteredChildren = children.flat().filter((child) => child !== null && child !== undefined);
 
-	/** convert primitive children to text nodes */
-	const normalizedChildren = filteredChildren.map((child) =>
-		typeof child === 'string' || typeof child === 'number'
-			? createTextElement(child)
-			: child,
-	);
+  /** convert primitive children to text nodes */
+  const normalizedChildren = filteredChildren.map((child) =>
+    typeof child === 'string' || typeof child === 'number' ? createTextElement(child) : child,
+  );
 
-	return {
-		type,
-		props: {
-			...props,
-			children: normalizedChildren,
-		},
-		key: props?.key ?? null,
-		ref: props?.ref ?? null,
-	};
+  return {
+    type,
+    props: {
+      ...props,
+      children: normalizedChildren,
+    },
+    key: props?.key ?? null,
+    ref: props?.ref ?? null,
+  };
 }
 
 /**
@@ -41,13 +33,13 @@ export function createElement(
  * @returns The created VNode.
  */
 function createTextElement(text: string | number): VNode {
-	return {
-		type: 'TEXT_ELEMENT',
-		props: {
-			nodeValue: text,
-			children: [],
-		},
-		key: null,
-		ref: null,
-	};
+  return {
+    type: 'TEXT_ELEMENT',
+    props: {
+      nodeValue: text,
+      children: [],
+    },
+    key: null,
+    ref: null,
+  };
 }

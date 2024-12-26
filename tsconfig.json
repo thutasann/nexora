@@ -1,17 +1,17 @@
 {
-	"compilerOptions": {
-		"jsx": "react",
-		"jsxFactory": "Nexora",
-		"jsxFragmentFactory": "Nexora.Fragment",
-		"outDir": "./dist",
-		"module": "ESNext",
-		"target": "ESNext",
-		"moduleResolution": "node",
-		"esModuleInterop": true,
-		"strict": true,
-		"declaration": true,
-		"declarationDir": "./dist"
-	},
-	"include": ["src/**/*"],
-	"exclude": ["node_modules"]
+  "compilerOptions": {
+    "jsx": "react",
+    "jsxFactory": "Nexora",
+    "jsxFragmentFactory": "Nexora.Fragment",
+    "outDir": "./dist",
+    "module": "ESNext",
+    "target": "ESNext",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "strict": true,
+    "declaration": true,
+    "declarationDir": "./dist"
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
 }
