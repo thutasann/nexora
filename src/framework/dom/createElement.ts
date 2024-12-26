@@ -1,4 +1,4 @@
-import { Props, VNode } from '../core';
+import { Props, VNode } from '../../core';
 
 /**
  * Creates a VNode from the given arguments.

@@ -1,4 +1,4 @@
-import { DOMElement, DOMNode, Props, VNode } from '../core';
+import { DOMElement, DOMNode, Props, VNode } from '../../core';
 
 /**
  * Render the given VNode into the given container.
