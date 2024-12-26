@@ -20,3 +20,15 @@ button {
 button:hover {
   background-color: #0056b3;
 }
+
+input {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.25rem;
+  margin-right: 0.5rem;
+}
+
+.container {
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 1rem;
+}

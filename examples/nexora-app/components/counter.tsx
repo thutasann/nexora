@@ -9,7 +9,7 @@ export const Counter = () => {
   console.log('Counter One --> ', getCount());
 
   return (
-    <section style='border-bottom: 1px solid #ccc; padding-bottom: 1rem;'>
+    <section className='container'>
       <h2>Counter One: Current Count: {getCount()}</h2>
       <button
         onclick={() => {
