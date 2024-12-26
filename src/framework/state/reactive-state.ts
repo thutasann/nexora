@@ -8,6 +8,7 @@ class ReactiveState {
   private rootElement: DOMElement | null = null;
 
   createState<T>(initialValue: T): [() => T, (newValue: T | ((prev: T) => T)) => void] {
+    this.rootElement ??= document.getElementById('app') as DOMElement;
     if (!this.currentComponentFn) {
       throw new Error('createState must be called within a component');
     }
@@ -47,46 +48,38 @@ class ReactiveState {
 
       states.set(stateIndex, nextValue);
 
-      if (this.rootElement) {
-        const rootVNode = this.rootElement._vnode;
-        if (!rootVNode) return;
-
-        const rootComponentFn = rootVNode.props._componentFn;
-        if (!rootComponentFn) return;
-
-        queueMicrotask(() => {
-          // Reset state index
-          this.stateIndexes.set(componentFn, 0);
-          const newVNode = this.renderComponent(rootComponentFn);
-          render(newVNode, this.rootElement!);
-        });
-      }
+      queueMicrotask(() => {
+        const newVNode = this.render(componentFn);
+        if (this.rootElement) {
+          const componentElement = this.findElementByComponent(this.rootElement, componentFn);
+          if (componentElement) {
+            const oldVNode = componentElement._vnode;
+            if (oldVNode) {
+              render(newVNode, componentElement);
+            }
+          }
+        }
+      });
     };
 
     return [getState, setState];
   }
 
-  renderComponent(ComponentFn: Function): VNode {
-    if (!this.rootElement) {
-      this.rootElement = document.getElementById('app') as DOMElement;
-    }
-
+  render(ComponentFn: Function): VNode {
     const prevComponent = this.currentComponentFn;
     this.currentComponentFn = ComponentFn;
 
     try {
       this.stateIndexes.set(ComponentFn, 0);
-
-      const result = typeof ComponentFn === 'function' ? ComponentFn() : ComponentFn;
-
-      const finalResult = typeof result === 'function' ? result() : result;
+      const result = ComponentFn();
+      const renderKey = Date.now();
 
       return {
         type: 'reactive-wrapper',
         props: {
-          children: [finalResult],
+          children: [result],
           _componentFn: ComponentFn,
-          _renderKey: Date.now(),
+          _renderKey: renderKey,
         },
         key: null,
         ref: null,
@@ -94,6 +87,19 @@ class ReactiveState {
     } finally {
       this.currentComponentFn = prevComponent;
     }
+  }
+
+  findElementByComponent(root: DOMElement, componentFn: Function): DOMElement | null {
+    if (root._vnode?.props?._componentFn === componentFn) {
+      return root;
+    }
+
+    for (const child of Array.from(root.children)) {
+      const found = this.findElementByComponent(child as DOMElement, componentFn);
+      if (found) return found;
+    }
+
+    return null;
   }
 }
 

@@ -1,12 +1,12 @@
 import { createState, Nexora } from '../../../dist';
 
-export const Counter = () => {
+export const CounterTwo = () => {
   const [getCount, setCount] = createState(0);
-  console.log('Counter One --> ', getCount());
+  console.log('Counter Two --> ', getCount());
 
   return (
     <section>
-      <h2>Counter One: Current Count: {getCount()}</h2>
+      <h2>Counter Two: Current Count: {getCount()}</h2>
       <button
         onclick={() => {
           setCount((prev) => {
