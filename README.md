@@ -11,7 +11,7 @@ A powerful yet lightweight JavaScript library that simplifies building modern we
 ## Installation
 
 ```bash
-npm install nexora
+npm install nexora@latest
 ```
 
 ## Usage
