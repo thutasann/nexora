@@ -1,6 +1,10 @@
-# Nexora: The Javascript Library for Web User Interfaces
+# Nexora: Modern Web Development Made Simple
 
-A lightweight, production-ready JavaScript library for building user interfaces, supporting JSX
+A powerful yet lightweight JavaScript library that simplifies building modern web applications with a focus on performance and developer experience.
+
+- **Component-based:** Build encapsulated, reusable UI components that manage their own state and compose them to create complex user interfaces
+- **Declarative:** Design simple views for each state in your application, and Nexora will efficiently update and render the right components when your data changes
+- **Simple API:** Get started quickly with an intuitive API that follows modern JavaScript patterns and best practices
 
 ## Installation
 
@@ -11,11 +15,18 @@ npm install nexora
 ## Usage
 
 ```tsx
-import { Nexora, render } from 'nexora';
+import { Nexora, reactive, render } from '../../dist';
+import { Counter } from './components/counter';
 
 function App() {
-	return <div>Hello, World!</div>;
+	return (
+		<div>
+			<h1>Nexora App</h1>
+			<Counter />
+		</div>
+	);
 }
 
-render(<App />, document.getElementById('app'));
+const app = document.getElementById('app');
+if (app) render(reactive.renderComponent(App), app);
 ```
