@@ -8,26 +8,24 @@ class ReactiveState {
   private rootElement: DOMElement | null = null;
 
   createState<T>(initialValue: T): [() => T, (newValue: T | ((prev: T) => T)) => void] {
+    this.rootElement ??= document.getElementById('app') as DOMElement;
     if (!this.currentComponentFn) {
       throw new Error('createState must be called within a component');
     }
 
     const componentFn = this.currentComponentFn;
 
-    // Initialize state index if not exists
     if (!this.stateIndexes.has(componentFn)) {
       this.stateIndexes.set(componentFn, 0);
     }
     const stateIndex = this.stateIndexes.get(componentFn)!;
     this.stateIndexes.set(componentFn, stateIndex + 1);
 
-    // Initialize component states if not exists
     if (!this.states.has(componentFn)) {
       this.states.set(componentFn, new Map());
     }
     const componentStates = this.states.get(componentFn)!;
 
-    // Set initial value if not exists
     if (!componentStates.has(stateIndex)) {
       componentStates.set(stateIndex, initialValue);
     }
@@ -50,13 +48,15 @@ class ReactiveState {
 
       states.set(stateIndex, nextValue);
 
-      // Queue the re-render
       queueMicrotask(() => {
-        const newVNode = this.renderComponent(componentFn);
+        const newVNode = this.render(componentFn);
         if (this.rootElement) {
-          const oldVNode = this.rootElement._vnode;
-          if (oldVNode) {
-            render(newVNode, this.rootElement);
+          const componentElement = this.findElementByComponent(this.rootElement, componentFn);
+          if (componentElement) {
+            const oldVNode = componentElement._vnode;
+            if (oldVNode) {
+              render(newVNode, componentElement);
+            }
           }
         }
       });
@@ -65,33 +65,41 @@ class ReactiveState {
     return [getState, setState];
   }
 
-  renderComponent(ComponentFn: Function): VNode {
-    // Store the previous component function
+  render(ComponentFn: Function): VNode {
     const prevComponent = this.currentComponentFn;
     this.currentComponentFn = ComponentFn;
 
     try {
-      // Reset state index before rendering
       this.stateIndexes.set(ComponentFn, 0);
-
-      // Execute the component function
       const result = ComponentFn();
+      const renderKey = Date.now();
 
-      // Wrap the result in a reactive wrapper
       return {
         type: 'reactive-wrapper',
         props: {
           children: [result],
           _componentFn: ComponentFn,
-          _renderKey: Date.now(),
+          _renderKey: renderKey,
         },
         key: null,
         ref: null,
       };
     } finally {
-      // Restore the previous component function
       this.currentComponentFn = prevComponent;
     }
+  }
+
+  findElementByComponent(root: DOMElement, componentFn: Function): DOMElement | null {
+    if (root._vnode?.props?._componentFn === componentFn) {
+      return root;
+    }
+
+    for (const child of Array.from(root.children)) {
+      const found = this.findElementByComponent(child as DOMElement, componentFn);
+      if (found) return found;
+    }
+
+    return null;
   }
 }
 
