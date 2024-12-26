@@ -77,10 +77,7 @@ function patch(container: DOMElement, oldVNode: VNode, newVNode: VNode) {
     const newChild = newVNode.props.children?.[0];
     if (!oldChild || !newChild) return;
 
-    // Store the component function reference
-    const componentFn = newVNode.props._componentFn;
-
-    // Check if we need to force update
+    // Always force update for reactive components when render key changes
     if (oldVNode.props._renderKey !== newVNode.props._renderKey) {
       const oldDom = findDom(oldVNode);
       const newDom = mount(newChild, container);
@@ -91,6 +88,7 @@ function patch(container: DOMElement, oldVNode: VNode, newVNode: VNode) {
       return;
     }
 
+    // Continue with normal patching
     patch(container, oldChild, newChild);
     newVNode._dom = oldVNode._dom;
     return;

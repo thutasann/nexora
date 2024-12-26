@@ -14,17 +14,20 @@ class ReactiveState {
 
     const componentFn = this.currentComponentFn;
 
+    // Initialize state index if not exists
     if (!this.stateIndexes.has(componentFn)) {
       this.stateIndexes.set(componentFn, 0);
     }
     const stateIndex = this.stateIndexes.get(componentFn)!;
     this.stateIndexes.set(componentFn, stateIndex + 1);
 
+    // Initialize component states if not exists
     if (!this.states.has(componentFn)) {
       this.states.set(componentFn, new Map());
     }
     const componentStates = this.states.get(componentFn)!;
 
+    // Set initial value if not exists
     if (!componentStates.has(stateIndex)) {
       componentStates.set(stateIndex, initialValue);
     }
@@ -47,44 +50,38 @@ class ReactiveState {
 
       states.set(stateIndex, nextValue);
 
-      if (this.rootElement) {
-        const rootVNode = this.rootElement._vnode;
-        if (!rootVNode) return;
-
-        const rootComponentFn = rootVNode.props._componentFn;
-        if (!rootComponentFn) return;
-
-        queueMicrotask(() => {
-          // Reset state index
-          this.stateIndexes.set(componentFn, 0);
-          const newVNode = this.renderComponent(rootComponentFn);
-          render(newVNode, this.rootElement!);
-        });
-      }
+      // Queue the re-render
+      queueMicrotask(() => {
+        const newVNode = this.renderComponent(componentFn);
+        if (this.rootElement) {
+          const oldVNode = this.rootElement._vnode;
+          if (oldVNode) {
+            render(newVNode, this.rootElement);
+          }
+        }
+      });
     };
 
     return [getState, setState];
   }
 
   renderComponent(ComponentFn: Function): VNode {
-    if (!this.rootElement) {
-      this.rootElement = document.getElementById('app') as DOMElement;
-    }
-
+    // Store the previous component function
     const prevComponent = this.currentComponentFn;
     this.currentComponentFn = ComponentFn;
 
     try {
+      // Reset state index before rendering
       this.stateIndexes.set(ComponentFn, 0);
 
-      const result = typeof ComponentFn === 'function' ? ComponentFn() : ComponentFn;
+      // Execute the component function
+      const result = ComponentFn();
 
-      const finalResult = typeof result === 'function' ? result() : result;
-
+      // Wrap the result in a reactive wrapper
       return {
         type: 'reactive-wrapper',
         props: {
-          children: [finalResult],
+          children: [result],
           _componentFn: ComponentFn,
           _renderKey: Date.now(),
         },
@@ -92,6 +89,7 @@ class ReactiveState {
         ref: null,
       };
     } finally {
+      // Restore the previous component function
       this.currentComponentFn = prevComponent;
     }
   }
