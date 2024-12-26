@@ -1,2 +1,2 @@
-export * from './state.type';
+export * from './component.type';
 export * from './vnode.type';

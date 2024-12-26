@@ -1,4 +1,4 @@
-import { createState, Nexora } from '../../../dist';
+import { createState, Nexora } from '../../../src';
 
 export const CounterTwo = () => {
   const [getCount, setCount] = createState(0);

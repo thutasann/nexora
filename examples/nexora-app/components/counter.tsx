@@ -1,11 +1,15 @@
-import { createState, Nexora } from '../../../dist';
+import { createState, freeze, Nexora } from '../../../src';
+import ChildOne from './atom/child-one';
+import ChildTwo from './atom/child-two';
+
+const FreezedChildTwo = freeze(ChildTwo);
 
 export const Counter = () => {
   const [getCount, setCount] = createState(0);
   console.log('Counter One --> ', getCount());
 
   return (
-    <section>
+    <section style='border-bottom: 1px solid #ccc; padding-bottom: 1rem;'>
       <h2>Counter One: Current Count: {getCount()}</h2>
       <button
         onclick={() => {
@@ -25,6 +29,9 @@ export const Counter = () => {
       >
         Decrement
       </button>
+
+      <ChildOne count={getCount()} />
+      <FreezedChildTwo />
     </section>
   );
 };
