@@ -2,9 +2,6 @@ import { DOMElement, DOMNode, Props, VNode } from '../../core';
 
 /**
  * Render the given VNode into the given container.
- * @description This function is the entry point for the renderer.
- * @param vnode - The VNode to render.
- * @param container - The container to render the VNode into.
  */
 export function render(vnode: VNode, container: DOMElement) {
 	const prevNode = container._vnode;
@@ -21,27 +18,38 @@ export function render(vnode: VNode, container: DOMElement) {
 }
 
 /**
- * Mount the given VNode into the given container.
- * @param vnode - The VNode to mount.
- * @param container - The container to mount the VNode into.
- * @param nextSibling - The next sibling to mount the VNode after.
- * @returns The mounted DOM node.
+ * Mount a VNode to the DOM
  */
 function mount(
 	vnode: VNode,
 	container: DOMElement,
 	nextSibling: DOMNode | null = null,
 ): DOMNode {
+	// Handle reactive components
+	if (vnode.type === 'reactive-wrapper') {
+		const child = vnode.props.children?.[0];
+		if (!child) throw new Error('Reactive wrapper must have a child');
+
+		// Store the component function reference
+		child.props._componentFn = vnode.props._componentFn;
+
+		const dom = mount(child, container, nextSibling);
+		vnode._dom = dom;
+		return dom;
+	}
+
+	// Handle function components
 	if (typeof vnode.type === 'function') {
 		return mountComponent(vnode, container, nextSibling);
 	}
 
+	// Create DOM element
 	const dom =
 		vnode.type === 'TEXT_ELEMENT'
 			? document.createTextNode(vnode.props.nodeValue)
 			: document.createElement(vnode.type);
 
-	// Store vnode reference for future updates
+	// Store references
 	(dom as DOMElement)._vnode = vnode;
 	vnode._dom = dom;
 
@@ -51,10 +59,11 @@ function mount(
 	}
 
 	// Mount children
-	if (dom instanceof HTMLElement) {
-		vnode.props.children?.forEach((child) => mount(child, dom));
+	if (dom instanceof HTMLElement && vnode.props.children) {
+		vnode.props.children.forEach((child) => mount(child, dom));
 	}
 
+	// Insert into DOM
 	if (nextSibling) {
 		container.insertBefore(dom, nextSibling);
 	} else {
@@ -65,85 +74,115 @@ function mount(
 }
 
 /**
- * Patch the given VNode into the given container.
- * @param container - The container to patch the VNode into.
- * @param oldVNode - The old VNode to patch.
- * @param newVNode - The new VNode to patch.
+ * Update an existing VNode in the DOM
  */
 function patch(container: DOMElement, oldVNode: VNode, newVNode: VNode) {
-	// If types are different, unmount and mount
-	if (oldVNode.type !== newVNode.type) {
-		const oldDom = findDom(oldVNode);
-		const newDom = mount(newVNode, container);
-		oldDom?.parentNode?.replaceChild(newDom as Node, oldDom);
+	// Handle reactive components
+	if (
+		oldVNode.type === 'reactive-wrapper' &&
+		newVNode.type === 'reactive-wrapper'
+	) {
+		const oldChild = oldVNode.props.children?.[0];
+		const newChild = newVNode.props.children?.[0];
+		if (!oldChild || !newChild) return;
+
+		// Store the component function reference
+		const componentFn = newVNode.props._componentFn;
+
+		// Check if we need to force update
+		if (oldVNode.props._renderKey !== newVNode.props._renderKey) {
+			const oldDom = findDom(oldVNode);
+			const newDom = mount(newChild, container);
+			if (oldDom) {
+				oldDom.parentNode?.replaceChild(newDom, oldDom);
+			}
+			newVNode._dom = newDom;
+			return;
+		}
+
+		patch(container, oldChild, newChild);
+		newVNode._dom = oldVNode._dom;
 		return;
 	}
 
-	// Update props
-	const dom = findDom(oldVNode);
-	if (dom) {
-		updateProps(dom as DOMElement, oldVNode.props, newVNode.props);
+	// If types are different, replace the node
+	if (oldVNode.type !== newVNode.type) {
+		const oldDom = findDom(oldVNode);
+		const newDom = mount(newVNode, container);
+		if (oldDom) {
+			oldDom.parentNode?.replaceChild(newDom, oldDom);
+		}
+		return;
 	}
 
-	// Diff children
+	// Update text nodes
+	if (newVNode.type === 'TEXT_ELEMENT') {
+		const dom = findDom(oldVNode);
+		if (dom && oldVNode.props.nodeValue !== newVNode.props.nodeValue) {
+			dom.nodeValue = newVNode.props.nodeValue;
+		}
+		newVNode._dom = dom!;
+		return;
+	}
+
+	// Update regular elements
+	const dom = findDom(oldVNode) as DOMElement;
+	if (!dom) return;
+
+	// Update props
+	updateProps(dom, oldVNode.props, newVNode.props);
+	newVNode._dom = dom;
+
+	// Update children
 	diffChildren(
-		dom as HTMLElement,
-		oldVNode.props.children,
-		newVNode.props.children,
+		dom,
+		oldVNode.props.children || [],
+		newVNode.props.children || [],
 	);
 }
 
 /**
- * Mount the given component VNode into the given container.
- * @param vnode - The component VNode to mount.
- * @param container - The container to mount the component VNode into.
- * @param nextSibling - The next sibling to mount the component VNode after.
- * @returns The mounted DOM node.
+ * Mount a component VNode
  */
 function mountComponent(
 	vnode: VNode,
 	container: DOMElement,
 	nextSibling: DOMNode | null = null,
 ): DOMNode {
-	// Handle both class and function components
-	const component =
-		typeof vnode.type === 'function'
-			? vnode.type.prototype?.render
-				? new (vnode.type as any)(vnode.props)
-				: (vnode.type as any)(vnode.props)
-			: null;
+	const ComponentFn = vnode.type as Function;
+	const props = vnode.props;
 
-	if (!component) {
-		throw new Error('Invalid component type');
-	}
+	// Handle both class and function components
+	const component = ComponentFn.prototype?.render
+		? new (ComponentFn as any)(props)
+		: ComponentFn(props);
 
 	const renderedVNode =
 		typeof component === 'function' ? component() : component.render();
+
 	const dom = mount(renderedVNode, container, nextSibling);
 	vnode._rendered = renderedVNode;
+	vnode._dom = dom;
 	return dom;
 }
 
 /**
- * Find the DOM node for the given VNode.
- * @param vnode - The VNode to find the DOM node for.
- * @returns The DOM node or null if not found.
+ * Find the DOM node for a VNode
  */
 function findDom(vnode: VNode): DOMNode | null {
 	if (!vnode) return null;
 
-	if (typeof vnode.type === 'function') {
-		return findDom(vnode._rendered!);
+	if (vnode._dom) return vnode._dom;
+
+	if (vnode._rendered) {
+		return findDom(vnode._rendered);
 	}
 
-	return vnode._dom || null;
+	return null;
 }
 
 /**
- * Update the properties of the given DOM element.
- * @param dom - The DOM element to update.
- * @param oldProps - The old properties.
- * @param newProps - The new properties.
+ * Update props on a DOM element
  */
 function updateProps(dom: DOMElement, oldProps: Props, newProps: Props) {
 	// Remove old properties
@@ -175,15 +214,12 @@ function updateProps(dom: DOMElement, oldProps: Props, newProps: Props) {
 }
 
 /**
- * Diff the children of the given DOM element.
- * @param parentDom - The DOM element to diff the children of.
- * @param oldChildren - The old children.
- * @param newChildren - The new children.
+ * Diff and update children
  */
 function diffChildren(
 	parentDom: HTMLElement,
-	oldChildren: VNode[] = [],
-	newChildren: VNode[] = [],
+	oldChildren: VNode[],
+	newChildren: VNode[],
 ) {
 	const maxLength = Math.max(oldChildren.length, newChildren.length);
 

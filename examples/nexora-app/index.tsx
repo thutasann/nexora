@@ -1,37 +1,48 @@
-import { render, Nexora } from '../../dist';
-import Hello from './components/hello';
+import { createState, Nexora, reactive, render } from '../../dist';
+
+const Counter = () => {
+	const [getCount, setCount] = createState(0);
+	console.log('Counter --> ', getCount());
+
+	return (
+		<section>
+			<h2>Current Count: {getCount()}</h2>
+			<button
+				onclick={() => {
+					setCount((prev) => {
+						return prev + 1;
+					});
+				}}
+			>
+				Increment
+			</button>
+			<button
+				onclick={() => {
+					setCount((prev) => {
+						return prev - 1;
+					});
+				}}
+			>
+				Decrement
+			</button>
+		</section>
+	);
+};
+
+const Header = () => {
+	return <h1>Nexora App</h1>;
+};
 
 function App() {
-	let count = 0;
-
-	const increment = () => {
-		count++;
-		update();
-	};
-
-	const decrement = () => {
-		count--;
-		update();
-	};
-
-	const update = () => {
-		render(App(), document.getElementById('app')!);
-	};
-
-	const App = () => (
+	return (
 		<div>
-			<p>Count: {count}</p>
-			<button onclick={increment}>Increment</button>
-			<button onclick={decrement}>Decrement</button>
-
-			<Hello name="Thuta Sann" />
+			<Header />
+			<Counter />
 		</div>
 	);
-
-	return App();
 }
 
 const app = document.getElementById('app');
 if (app) {
-	render(App(), app);
+	render(reactive.renderComponent(App), app);
 }
