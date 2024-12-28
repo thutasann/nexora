@@ -4,7 +4,13 @@ import { RouterNameSpace, VNode } from '../../core';
  * Current router context
  * @description - The current router context.
  */
-let currentRouterContext: RouterNameSpace.RouterProviderProps['value'] | null = null;
+let currentRouterContext: RouterNameSpace.RouterProviderProps['value'] | null = {
+  getRouterContext: () => ({
+    currentPath: window.location.pathname,
+    params: {},
+  }),
+  setRouterContext: () => {},
+};
 
 /**
  * Router provider component

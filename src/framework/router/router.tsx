@@ -11,6 +11,7 @@ import { RouterProvider } from './router-provider';
  */
 export function Router({ children }: RouterNameSpace.RouterProps): VNode {
   console.log('Router');
+
   const [getRouterContext, setRouterContext] = createState<RouterNameSpace.RouterContextType>({
     currentPath: window.location.pathname,
     params: {},

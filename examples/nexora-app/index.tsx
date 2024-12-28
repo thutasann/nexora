@@ -1,22 +1,21 @@
-import { Link, Nexora, render, Route, Router } from '../../src';
-import { About } from './pages/about';
-import { Contact } from './pages/contact';
+import { Nexora, render } from '../../src';
 import { Home } from './pages/home';
 import './styles/index.css';
 
 function App() {
   return (
-    <Router>
-      <nav>
-        <Link to='/'>Home</Link>
-        <Link to='/about'>About</Link>
-        <Link to='/contact'>Contact</Link>
-      </nav>
+    <Home />
+    // <Router>
+    //   <nav>
+    //     <Link to='/'>Home</Link>
+    //     <Link to='/about'>About</Link>
+    //     <Link to='/contact'>Contact</Link>
+    //   </nav>
 
-      <Route path='/' component={Home} />
-      <Route path='/about' component={About} />
-      <Route path='/contact' component={Contact} />
-    </Router>
+    //   <Route path='/' component={Home} />
+    //   <Route path='/about' component={About} />
+    //   <Route path='/contact' component={Contact} />
+    // </Router>
   );
 }
 

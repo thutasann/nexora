@@ -22,7 +22,10 @@ export function mount(vnode: VNode | VNode[], container: DOMElement, nextSibling
     const child = vnode.props.children?.[0];
     if (!child) throw new Error('Reactive wrapper must have a child');
 
-    child.props._componentFn = vnode.props._componentFn;
+    if (vnode.props._componentFn) {
+      child.props = child.props || {};
+      child.props._componentFn = vnode.props._componentFn;
+    }
 
     const dom = mount(child, container, nextSibling);
     vnode._dom = dom;
@@ -44,7 +47,11 @@ export function mount(vnode: VNode | VNode[], container: DOMElement, nextSibling
   }
 
   if (dom instanceof HTMLElement && vnode.props.children) {
-    vnode.props.children.forEach((child) => mount(child, dom));
+    vnode.props.children.forEach((child) => {
+      if (child) {
+        mount(child, dom);
+      }
+    });
   }
 
   if (nextSibling) {
