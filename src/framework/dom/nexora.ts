@@ -42,6 +42,19 @@ export function Nexora(type: string | Function, props: any, ...children: any[]) 
         });
       }
 
+      if (reactive.hasState(type)) {
+        return {
+          type: 'reactive-wrapper',
+          props: {
+            children: [result],
+            _componentFn: type,
+            _renderKey: Date.now(),
+          },
+          key: null,
+          ref: null,
+        };
+      }
+
       return {
         type,
         props: {
