@@ -1,4 +1,5 @@
 import { DOMElement, DOMNode, VNode } from '../../../core';
+import { executeInitCallbacks } from '../../lifecycles/on-init';
 import { mount } from './mount';
 
 /**
@@ -8,12 +9,13 @@ export function mountComponent(vnode: VNode, container: DOMElement, nextSibling:
   const ComponentFn = vnode.type as Function;
   const props = vnode.props;
 
-  const component = ComponentFn.prototype?.render ? new (ComponentFn as any)(props) : ComponentFn(props);
+  executeInitCallbacks(ComponentFn);
 
-  const renderedVNode = typeof component === 'function' ? component() : component.render();
+  const childVNode = props.children?.[0];
 
-  const dom = mount(renderedVNode, container, nextSibling);
-  vnode._rendered = renderedVNode;
+  const dom = mount(childVNode!, container, nextSibling);
+  vnode._rendered = childVNode;
   vnode._dom = dom;
+
   return dom;
 }

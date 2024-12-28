@@ -10,7 +10,17 @@ export type VNode = {
   /**
    * The properties of the VNode.
    */
-  props: Props;
+  props: Props & {
+    _componentFn?: Function;
+    /**
+     * The original function of the component.
+     */
+    _originalFn?: Function;
+    /**
+     * The render key of the component.
+     */
+    _renderKey?: number;
+  };
   /**
    * The key of the VNode.
    */
