@@ -4,6 +4,11 @@ import { mount } from './mount';
 
 /**
  * Mount a component VNode
+ * @description - This function is used to mount a component VNode.
+ * @param vnode - The VNode to mount
+ * @param container - The container element to mount the component in
+ * @param nextSibling - The next sibling DOM node to mount the component after
+ * @returns The DOM node for the component
  */
 export function mountComponent(vnode: VNode, container: DOMElement, nextSibling: DOMNode | null = null): DOMNode {
   const ComponentFn = vnode.type as Function;

@@ -1,4 +1,3 @@
-export * from './create-element';
 export * from './diff-children';
 export * from './find-dom';
 export * from './mount';

@@ -7,6 +7,7 @@ A powerful yet lightweight JavaScript library that simplifies building modern we
 - **Simple API:** Get started quickly with an intuitive API that follows modern JavaScript patterns and best practices
 - **Reactive:** Use reactive state to manage data and automatically update the UI when the state changes
 - **Performant Rendering:** Utilizes a virtual DOM to optimize rendering performance and minimize DOM manipulation
+- **Router:** A simple and powerful router that allows you to navigate between pages and manage routes in your application
 
 ## Installation
 

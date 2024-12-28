@@ -3,6 +3,7 @@ import { render } from '../dom/render';
 
 /**
  * ## Reactive State ##
+ * @description - This class is used to manage the state of the components.
  * - Manages the state of the components.
  * - Provides a way to create and manage state for components.
  * - Uses a WeakMap to store the state of each component.
@@ -114,13 +115,13 @@ class ReactiveState {
    * @param ComponentFn - The component function to render.
    * @returns The VNode of the component.
    */
-  private render(ComponentFn: Function): VNode {
+  private render(ComponentFn: Function, props?: any): VNode {
     const prevComponent = this.currentComponentFn;
     this.currentComponentFn = ComponentFn;
 
     try {
       this.stateIndexes.set(ComponentFn, 0);
-      const result = ComponentFn();
+      const result = ComponentFn(props || {});
       const renderKey = Date.now();
 
       // clean up any temporary references

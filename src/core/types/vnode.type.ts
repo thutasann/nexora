@@ -11,6 +11,9 @@ export type VNode = {
    * The properties of the VNode.
    */
   props: Props & {
+    /**
+     * The component function of the VNode.
+     */
     _componentFn?: Function;
     /**
      * The original function of the component.

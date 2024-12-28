@@ -4,6 +4,11 @@ import { updateProps } from './update-props';
 
 /**
  * Mount a VNode to the DOM
+ * @description - This function is used to mount a VNode to the DOM.
+ * @param vnode - The VNode to mount
+ * @param container - The container element to mount the VNode in
+ * @param nextSibling - The next sibling DOM node to mount the VNode after
+ * @returns The DOM node for the VNode
  */
 export function mount(vnode: VNode | VNode[], container: DOMElement, nextSibling: DOMNode | null = null): DOMNode {
   if (Array.isArray(vnode)) {
@@ -17,7 +22,10 @@ export function mount(vnode: VNode | VNode[], container: DOMElement, nextSibling
     const child = vnode.props.children?.[0];
     if (!child) throw new Error('Reactive wrapper must have a child');
 
-    child.props._componentFn = vnode.props._componentFn;
+    if (vnode.props._componentFn) {
+      child.props = child.props || {};
+      child.props._componentFn = vnode.props._componentFn;
+    }
 
     const dom = mount(child, container, nextSibling);
     vnode._dom = dom;
@@ -39,7 +47,11 @@ export function mount(vnode: VNode | VNode[], container: DOMElement, nextSibling
   }
 
   if (dom instanceof HTMLElement && vnode.props.children) {
-    vnode.props.children.forEach((child) => mount(child, dom));
+    vnode.props.children.forEach((child) => {
+      if (child) {
+        mount(child, dom);
+      }
+    });
   }
 
   if (nextSibling) {

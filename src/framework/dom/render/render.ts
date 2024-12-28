@@ -4,6 +4,7 @@ import { patch } from './patch';
 
 /**
  * ## Render ##
+ * @description - This function is used to render a VNode into the DOM.
  * - Render the given VNode into the given container.
  * - If the container already has a VNode, patch the container with the new VNode.
  * - If the container does not have a VNode, mount the new VNode into the container.

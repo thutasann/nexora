@@ -9,7 +9,7 @@ const _componentInitCallbacks: OnInit.ComponentInitMap = new Map();
 
 /**
  * ## onInit Lifecycle ##
- * - Register an init callback for a component
+ * @description - This function is used to register an init callback for a component.
  * @param callback - The callback to be executed when the component is initialized.
  */
 export function onInit(callback: OnInit.InitCallback) {
