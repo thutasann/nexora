@@ -1,4 +1,4 @@
-import { createState, freeze, Nexora } from '../../../../src';
+import { createState, freeze, Nexora } from '@/src';
 import ChildOne from './atom/child-one';
 import ChildTwo from './atom/child-two';
 

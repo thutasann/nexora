@@ -1,8 +1,12 @@
-import { Nexora } from '../../../../src';
+import { Nexora } from '@/src';
 
 export function ArrayList() {
   const items = ['Item 1', 'Item 2', 'Item 3'];
   console.log('items', items);
 
-  return <div className='container'></div>;
+  return (
+    <div className='container'>
+      <h2>Array List</h2>
+    </div>
+  );
 }

@@ -1,4 +1,4 @@
-import { Nexora } from '../../../../../src';
+import { Nexora } from '@/src';
 
 const ChildOne = ({ count }: { count: number }) => {
   console.log('Child One --> ', count);
