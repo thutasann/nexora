@@ -10,7 +10,9 @@
     "build": "rm -rf dist && tsc && vite build",
     "prepublishOnly": "npm run build",
     "prepare": "npm run build",
-    "format": "npx prettier . --write -c .prettierrc"
+    "format": "npx prettier . --write -c .prettierrc",
+    "example:production": "cd examples/nexora-production-app && npm run dev",
+    "example:dev": "npm run dev"
   },
   "keywords": [
     "javascript",

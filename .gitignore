@@ -7,7 +7,7 @@ yarn-error.log*
 pnpm-debug.log*
 package-lock.json
 lerna-debug.log*
-yarn.log
+yarn.*
 
 node_modules
 dist
