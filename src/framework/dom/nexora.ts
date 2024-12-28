@@ -1,4 +1,5 @@
 import { VNode } from '../../core';
+import { reactive } from '../state/reactive-state';
 
 declare global {
   namespace JSX {
@@ -21,7 +22,31 @@ declare global {
  */
 export function Nexora(type: string | Function, props: any, ...children: any[]) {
   if (typeof type === 'function') {
-    return type({ ...props, children });
+    const prevComponent = reactive.currentComponentFn;
+    reactive.currentComponentFn = type;
+
+    try {
+      reactive.stateIndexes.set(type, 0);
+      const result = type({ ...props, children });
+
+      if (reactive.hasState(type)) {
+        const renderKey = Date.now();
+        return {
+          type: 'reactive-wrapper',
+          props: {
+            children: [result],
+            _componentFn: type,
+            _renderKey: renderKey,
+          },
+          key: null,
+          ref: null,
+        };
+      }
+
+      return result;
+    } finally {
+      reactive.currentComponentFn = prevComponent;
+    }
   }
 
   return {

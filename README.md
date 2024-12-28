@@ -26,8 +26,8 @@ function App() {
   return (
     <div>
       <Header />
-      {reactive.render(Counter)}
-      {reactive.render(CounterTwo)}
+      <Counter />
+      <CounterTwo />
     </div>
   );
 }

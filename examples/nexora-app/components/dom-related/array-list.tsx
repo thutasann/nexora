@@ -7,9 +7,16 @@ export function ArrayList() {
     setItems((prev) => prev.filter((i) => i !== item));
   };
 
+  const handleAdd = () => {
+    setItems((prev) => [...prev, 'Item ' + (prev.length + 1)]);
+  };
+
   return (
     <div className='container'>
       <h2>Array List</h2>
+      <button style='margin-bottom: 1rem;' onClick={handleAdd}>
+        Add
+      </button>
       {items().map((item) => {
         return (
           <div className='card'>
