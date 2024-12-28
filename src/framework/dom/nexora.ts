@@ -18,7 +18,11 @@ declare global {
 }
 
 /**
- * Nexora JSX Factory
+ * ## Nexora JSX Factory ##
+ * @param type - The type of the element or component.
+ * @param props - The properties of the element or component.
+ * @param children - The children of the element or component.
+ * @returns The VNode of the element or component.
  */
 export function Nexora(type: string | Function, props: any, ...children: any[]) {
   if (typeof type === 'function') {
@@ -49,10 +53,20 @@ export function Nexora(type: string | Function, props: any, ...children: any[]) 
     }
   }
 
+  const transformedProps = { ...props };
+  if (transformedProps.style && typeof transformedProps.style === 'object') {
+    transformedProps.style = Object.entries(transformedProps.style)
+      .map(([key, value]) => {
+        const cssKey = key.replace(/([A-Z])/g, '-$1').toLowerCase();
+        return `${cssKey}: ${value}`;
+      })
+      .join(';');
+  }
+
   return {
     type,
     props: {
-      ...props,
+      ...transformedProps,
       children: children.map((child) =>
         typeof child === 'object' ? child : { type: 'TEXT_ELEMENT', props: { nodeValue: child } }
       ),
