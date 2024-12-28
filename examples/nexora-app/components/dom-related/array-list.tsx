@@ -1,4 +1,4 @@
-import { Nexora } from '@/src';
+import { Nexora } from '../../../../src';
 
 export function ArrayList() {
   const items = ['Item 1', 'Item 2', 'Item 3'];

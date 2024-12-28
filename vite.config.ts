@@ -4,7 +4,6 @@ import { defineConfig } from 'vite';
 export default defineConfig({
   root: 'examples/nexora-app',
   build: {
-    emptyOutDir: true,
     outDir: '../../dist',
     lib: {
       entry: path.resolve(__dirname, 'src/index.ts'),
@@ -19,7 +18,6 @@ export default defineConfig({
   resolve: {
     alias: {
       nexora: path.resolve(__dirname, 'src/index.ts'),
-      '@': path.resolve(__dirname, './'),
     },
   },
   esbuild: {

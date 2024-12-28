@@ -1,13 +1,13 @@
 {
   "name": "nexora",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A lightweight, production-ready JavaScript library for building user interfaces, supporting JSX.",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "rm -rf dist && tsc && vite build",
     "prepublishOnly": "npm run build",
     "prepare": "npm run build",
     "format": "npx prettier . --write -c .prettierrc"
