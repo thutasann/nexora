@@ -4,6 +4,11 @@ import { updateProps } from './update-props';
 
 /**
  * Mount a VNode to the DOM
+ * @description - This function is used to mount a VNode to the DOM.
+ * @param vnode - The VNode to mount
+ * @param container - The container element to mount the VNode in
+ * @param nextSibling - The next sibling DOM node to mount the VNode after
+ * @returns The DOM node for the VNode
  */
 export function mount(vnode: VNode | VNode[], container: DOMElement, nextSibling: DOMNode | null = null): DOMNode {
   if (Array.isArray(vnode)) {

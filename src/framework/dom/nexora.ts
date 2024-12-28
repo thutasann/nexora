@@ -19,6 +19,7 @@ declare global {
 
 /**
  * ## Nexora JSX Factory ##
+ * @description - This function is used to create a VNode from a JSX element or component.
  * @param type - The type of the element or component.
  * @param props - The properties of the element or component.
  * @param children - The children of the element or component.

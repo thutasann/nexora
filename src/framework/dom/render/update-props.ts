@@ -2,6 +2,10 @@ import { DOMElement, Props } from '../../../core';
 
 /**
  * Update props on a DOM element
+ * @description - This function is used to update the props on a DOM element.
+ * @param dom - The DOM element to update the props on
+ * @param oldProps - The old props
+ * @param newProps - The new props
  */
 export function updateProps(dom: DOMElement, oldProps: Props, newProps: Props) {
   Object.keys(oldProps).forEach((key) => {

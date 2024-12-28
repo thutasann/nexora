@@ -6,8 +6,12 @@ import { updateProps } from './update-props';
 
 /**
  * Update an existing VNode in the DOM
+ * @description - This function is used to update an existing VNode in the DOM.
+ * @param container - The container element to update
+ * @param oldVNode - The old VNode to update
+ * @param newVNode - The new VNode to update
  */
-export function patch(container: DOMElement, oldVNode: VNode | VNode[], newVNode: VNode | VNode[]) {
+export function patch(container: DOMElement, oldVNode: VNode | VNode[], newVNode: VNode | VNode[]): void {
   if (Array.isArray(oldVNode) && Array.isArray(newVNode)) {
     const maxLength = Math.max(oldVNode.length, newVNode.length);
 

@@ -3,6 +3,7 @@ import { render } from '../dom/render';
 
 /**
  * ## Reactive State ##
+ * @description - This class is used to manage the state of the components.
  * - Manages the state of the components.
  * - Provides a way to create and manage state for components.
  * - Uses a WeakMap to store the state of each component.
