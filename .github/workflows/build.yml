@@ -2,9 +2,9 @@ name: Build the Nexora
 
 on:
   push:
-    branches: [master, feat/state]
+    branches: [master, feat/state, feat/dom]
   pull_request:
-    branches: [master, feat/state]
+    branches: [master, feat/state, feat/dom]
 
 jobs:
   build:
