@@ -1,9 +1,18 @@
 import { DOMElement, VNode } from '../../core/types';
 import { render } from '../dom/render';
 
+/**
+ * ## Reactive State ##
+ * - Manages the state of the components.
+ * - Provides a way to create and manage state for components.
+ * - Uses a WeakMap to store the state of each component.
+ * - Uses a WeakMap to store the index of the state for each component.
+ * - Uses a WeakMap to store the current component function.
+ * - Uses a WeakMap to store the root element.
+ */
 class ReactiveState {
-  public states: Map<Function, Map<number, any>> = new Map();
-  public stateIndexes: Map<Function, number> = new Map();
+  public states: WeakMap<Function, Map<number, any>> = new WeakMap();
+  public stateIndexes: WeakMap<Function, number> = new WeakMap();
   public currentComponentFn: Function | null = null;
   public rootElement: DOMElement | null = null;
 
@@ -86,13 +95,15 @@ class ReactiveState {
    * @returns The element that matches the component function.
    */
   private findElementByComponent(root: DOMElement, componentFn: Function): DOMElement | null {
-    if (root._vnode?.props?._componentFn === componentFn) {
-      return root;
-    }
+    const queue: DOMElement[] = [root];
+    let current: DOMElement | undefined;
 
-    for (const child of Array.from(root.children)) {
-      const found = this.findElementByComponent(child as DOMElement, componentFn);
-      if (found) return found;
+    while ((current = queue.shift())) {
+      if (current._vnode?.props?._componentFn === componentFn) {
+        return current;
+      }
+
+      queue.push(...(Array.from(current.children) as DOMElement[]));
     }
 
     return null;
@@ -111,6 +122,15 @@ class ReactiveState {
       this.stateIndexes.set(ComponentFn, 0);
       const result = ComponentFn();
       const renderKey = Date.now();
+
+      // clean up any temporary references
+      if (result && typeof result === 'object') {
+        Object.keys(result).forEach((key) => {
+          if (key.startsWith('_temp')) {
+            delete result[key];
+          }
+        });
+      }
 
       return {
         type: 'reactive-wrapper',
