@@ -1,8 +1,7 @@
 import { Nexora, reactive, render } from '../../src';
-import { Counter } from './components/counter';
-import { CounterTwo } from './components/counter-two';
-import { Header } from './components/header';
-import { Todo } from './components/todo';
+import { Counter } from './components/states-related/counter';
+import { CounterTwo } from './components/states-related/counter-two';
+import { Header } from './components/states-related/header';
 import './index.css';
 
 function App() {
@@ -11,7 +10,6 @@ function App() {
       <Header />
       {reactive.render(Counter)}
       {reactive.render(CounterTwo)}
-      {reactive.render(Todo)}
     </div>
   );
 }
