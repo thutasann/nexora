@@ -1,13 +1,27 @@
 import { DOMElement, VNode } from '../../core/types';
 import { render } from '../dom/render';
 
+/**
+ * ## Reactive State ##
+ * - Manages the state of the components.
+ * - Provides a way to create and manage state for components.
+ * - Uses a WeakMap to store the state of each component.
+ * - Uses a WeakMap to store the index of the state for each component.
+ * - Uses a WeakMap to store the current component function.
+ * - Uses a WeakMap to store the root element.
+ */
 class ReactiveState {
-  private states: Map<Function, Map<number, any>> = new Map();
-  private stateIndexes: Map<Function, number> = new Map();
-  private currentComponentFn: Function | null = null;
-  private rootElement: DOMElement | null = null;
+  public states: WeakMap<Function, Map<number, any>> = new WeakMap();
+  public stateIndexes: WeakMap<Function, number> = new WeakMap();
+  public currentComponentFn: Function | null = null;
+  public rootElement: DOMElement | null = null;
 
-  createState<T>(initialValue: T): [() => T, (newValue: T | ((prev: T) => T)) => void] {
+  /**
+   * Creates a state for the given component.
+   * @param initialValue - The initial value of the state.
+   * @returns A tuple containing the getter and setter for the state.
+   */
+  public createState<T>(initialValue: T): [() => T, (newValue: T | ((prev: T) => T)) => void] {
     this.rootElement ??= document.getElementById('app') as DOMElement;
     if (!this.currentComponentFn) {
       throw new Error('createState must be called within a component');
@@ -65,7 +79,42 @@ class ReactiveState {
     return [getState, setState];
   }
 
-  render(ComponentFn: Function): VNode {
+  /**
+   * Checks if the given component function has state.
+   * @param componentFn - The component function to check.
+   * @returns True if the component function has state, false otherwise.
+   */
+  public hasState(componentFn: Function): boolean {
+    return this.states.has(componentFn);
+  }
+
+  /**
+   * Finds the element by the given component function.
+   * @param root - The root element to search within.
+   * @param componentFn - The component function to search for.
+   * @returns The element that matches the component function.
+   */
+  private findElementByComponent(root: DOMElement, componentFn: Function): DOMElement | null {
+    const queue: DOMElement[] = [root];
+    let current: DOMElement | undefined;
+
+    while ((current = queue.shift())) {
+      if (current._vnode?.props?._componentFn === componentFn) {
+        return current;
+      }
+
+      queue.push(...(Array.from(current.children) as DOMElement[]));
+    }
+
+    return null;
+  }
+
+  /**
+   * Renders the given component function.
+   * @param ComponentFn - The component function to render.
+   * @returns The VNode of the component.
+   */
+  private render(ComponentFn: Function): VNode {
     const prevComponent = this.currentComponentFn;
     this.currentComponentFn = ComponentFn;
 
@@ -73,6 +122,15 @@ class ReactiveState {
       this.stateIndexes.set(ComponentFn, 0);
       const result = ComponentFn();
       const renderKey = Date.now();
+
+      // clean up any temporary references
+      if (result && typeof result === 'object') {
+        Object.keys(result).forEach((key) => {
+          if (key.startsWith('_temp')) {
+            delete result[key];
+          }
+        });
+      }
 
       return {
         type: 'reactive-wrapper',
@@ -87,19 +145,6 @@ class ReactiveState {
     } finally {
       this.currentComponentFn = prevComponent;
     }
-  }
-
-  findElementByComponent(root: DOMElement, componentFn: Function): DOMElement | null {
-    if (root._vnode?.props?._componentFn === componentFn) {
-      return root;
-    }
-
-    for (const child of Array.from(root.children)) {
-      const found = this.findElementByComponent(child as DOMElement, componentFn);
-      if (found) return found;
-    }
-
-    return null;
   }
 }
 

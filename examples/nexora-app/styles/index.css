@@ -1,0 +1,13 @@
+@import './buttons.css';
+@import './card.css';
+@import './container.css';
+@import './inputs.css';
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #efefef;
+  font-family: Arial, Helvetica, sans-serif;
+}

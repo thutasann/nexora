@@ -1,16 +1,20 @@
-import { Nexora, reactive, render } from '../../src';
+import { Nexora, render } from '../../src';
 import { ArrayList } from './components/dom-related/array-list';
+import { OnInitSample } from './components/lifecycles-related/on-init-sample';
 import { Counter } from './components/states-related/counter';
 import { CounterTwo } from './components/states-related/counter-two';
 import { Header } from './components/states-related/header';
-import './index.css';
+import { ToggleTest } from './components/states-related/toggle-test';
+import './styles/index.css';
 
 function App() {
   return (
     <div>
       <Header />
-      {reactive.render(Counter)}
-      {reactive.render(CounterTwo)}
+      <OnInitSample />
+      <Counter />
+      <CounterTwo />
+      <ToggleTest />
       <ArrayList />
     </div>
   );
