@@ -1,4 +1,4 @@
-import { Props, VNode } from '../../core';
+import { Props, VNode } from '../../../core';
 
 /**
  * Creates a VNode from the given arguments.
@@ -12,7 +12,7 @@ export function createElement(type: string | Function, props: Props | null, ...c
 
   /** convert primitive children to text nodes */
   const normalizedChildren = filteredChildren.map((child) =>
-    typeof child === 'string' || typeof child === 'number' ? createTextElement(child) : child,
+    typeof child === 'string' || typeof child === 'number' ? createTextElement(child) : child
   );
 
   return {

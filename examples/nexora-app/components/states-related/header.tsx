@@ -1,4 +1,4 @@
-import { Nexora } from '../../../dist';
+import { Nexora } from '@/src';
 
 export const Header = () => {
   console.log('Header');

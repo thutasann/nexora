@@ -7,7 +7,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "dev": "vite",
-    "build": "rm -rf dist && tsc && vite build",
+    "build": "tsc && vite build",
     "prepublishOnly": "npm run build",
     "prepare": "npm run build",
     "format": "npx prettier . --write -c .prettierrc"
