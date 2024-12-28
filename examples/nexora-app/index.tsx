@@ -1,22 +1,22 @@
-import { Nexora, render } from '../../src';
-import { ArrayList } from './components/dom-related/array-list';
-import { OnInitSample } from './components/lifecycles-related/on-init-sample';
-import { Counter } from './components/states-related/counter';
-import { CounterTwo } from './components/states-related/counter-two';
-import { Header } from './components/states-related/header';
-import { ToggleTest } from './components/states-related/toggle-test';
+import { Link, Nexora, render, Route, Router } from '../../src';
+import { About } from './pages/about';
+import { Contact } from './pages/contact';
+import { Home } from './pages/home';
 import './styles/index.css';
 
 function App() {
   return (
-    <div>
-      <Header />
-      <OnInitSample />
-      <Counter />
-      <CounterTwo />
-      <ToggleTest />
-      <ArrayList />
-    </div>
+    <Router>
+      <nav>
+        <Link to='/'>Home</Link>
+        <Link to='/about'>About</Link>
+        <Link to='/contact'>Contact</Link>
+      </nav>
+
+      <Route path='/' component={Home} />
+      <Route path='/about' component={About} />
+      <Route path='/contact' component={Contact} />
+    </Router>
   );
 }
 
