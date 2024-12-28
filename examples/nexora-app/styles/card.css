@@ -1,0 +1,11 @@
+.card {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  width: fit-content;
+  border-radius: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.card.sm {
+  padding: 0.5rem;
+}

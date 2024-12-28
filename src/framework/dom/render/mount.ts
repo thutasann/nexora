@@ -5,7 +5,14 @@ import { updateProps } from './update-props';
 /**
  * Mount a VNode to the DOM
  */
-export function mount(vnode: VNode, container: DOMElement, nextSibling: DOMNode | null = null): DOMNode {
+export function mount(vnode: VNode | VNode[], container: DOMElement, nextSibling: DOMNode | null = null): DOMNode {
+  if (Array.isArray(vnode)) {
+    const fragment = document.createDocumentFragment() as unknown as DOMElement;
+    vnode.forEach((node) => mount(node, fragment, null));
+    container.appendChild(fragment);
+    return fragment.firstChild as DOMNode;
+  }
+
   if (vnode.type === 'reactive-wrapper') {
     const child = vnode.props.children?.[0];
     if (!child) throw new Error('Reactive wrapper must have a child');
