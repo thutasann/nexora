@@ -1,11 +1,11 @@
-import { createState, Nexora } from '../../../dist';
+import { createState, Nexora } from '../../../src';
 
 export const CounterTwo = () => {
   const [getCount, setCount] = createState(0);
   console.log('Counter Two --> ', getCount());
 
   return (
-    <section>
+    <section className='container'>
       <h2>Counter Two: Current Count: {getCount()}</h2>
       <button
         onclick={() => {
