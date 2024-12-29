@@ -90,24 +90,49 @@ class ReactiveState {
   }
 
   /**
+   * Triggers an update for the given component function.
+   * @param componentFn - The component function to trigger an update for.
+   */
+  public triggerUpdate(componentFn: Function) {
+    queueMicrotask(() => {
+      const newVNode = this.render(componentFn);
+
+      if (this.rootElement) {
+        const componentElement = this.findElementByComponent(this.rootElement, componentFn);
+        if (componentElement) {
+          const oldVNode = componentElement._vnode;
+          if (oldVNode) {
+            render(newVNode, componentElement);
+          }
+        }
+      }
+    });
+  }
+
+  /**
    * Finds the element by the given component function.
    * @param root - The root element to search within.
    * @param componentFn - The component function to search for.
    * @returns The element that matches the component function.
    */
   private findElementByComponent(root: DOMElement, componentFn: Function): DOMElement | null {
-    const queue: DOMElement[] = [root];
-    let current: DOMElement | undefined;
-
-    while ((current = queue.shift())) {
-      if (current._vnode?.props?._componentFn === componentFn) {
-        return current;
-      }
-
-      queue.push(...(Array.from(current.children) as DOMElement[]));
+    if (root._vnode?.props?._componentFn === componentFn) {
+      return root;
     }
 
-    return null;
+    const searchChildren = (element: DOMElement): DOMElement | null => {
+      for (const child of Array.from(element.children) as DOMElement[]) {
+        if (child._vnode?.props?._componentFn === componentFn) {
+          return child;
+        }
+
+        const found = searchChildren(child);
+        if (found) return found;
+      }
+      return null;
+    };
+
+    return searchChildren(root);
   }
 
   /**
