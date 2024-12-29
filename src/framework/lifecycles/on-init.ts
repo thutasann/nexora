@@ -6,7 +6,7 @@ import { reactive } from '../state';
  * Store init callbacks for each component
  */
 const _componentInitCallbacks: OnInit.ComponentInitMap = new Map();
-const _componentInitResults: WeakMap<Function, any> = new WeakMap();
+const _componentInitResults: WeakMap<Function, Map<Function, any>> = new WeakMap();
 const _componentInitPromises: WeakMap<Function, Promise<any>> = new WeakMap();
 
 /**
@@ -22,20 +22,22 @@ export function onInit<T>(initFn: () => Promise<T>): T {
 
   if (!_componentInitCallbacks.has(currentComponent)) {
     _componentInitCallbacks.set(currentComponent, []);
+    _componentInitResults.set(currentComponent, new Map());
   }
 
   _componentInitCallbacks.get(currentComponent)?.push(initFn);
 
-  if (!_componentInitResults.has(currentComponent)) {
-    _componentInitResults.set(currentComponent, reactive.createState(null));
+  const resultsMap = _componentInitResults.get(currentComponent)!;
+  if (!resultsMap.has(initFn)) {
+    resultsMap.set(initFn, reactive.createState(null));
     initFn().then((result) => {
-      const [_, setResult] = _componentInitResults.get(currentComponent)!;
+      const [_, setResult] = resultsMap.get(initFn)!;
       setResult(result);
       reactive.triggerUpdate(currentComponent);
     });
   }
 
-  const initResult = getInitResult<T>(currentComponent);
+  const initResult = getInitResult<T>(currentComponent, initFn);
   return initResult;
 }
 
@@ -68,11 +70,11 @@ export function executeInitCallbacks(componentFn: Function) {
  * @param component - The component to get the result for.
  * @returns - The result of the init function for the component.
  */
-function getInitResult<T>(component: Function): T {
-  const signal = _componentInitResults.get(component);
-  if (!signal) {
+function getInitResult<T>(component: Function, initFn: Function): T {
+  const resultsMap = _componentInitResults.get(component);
+  if (!resultsMap || !resultsMap.has(initFn)) {
     throw new Error('Init result not found for component');
   }
-  const [value] = signal;
+  const [value] = resultsMap.get(initFn)!;
   return value();
 }
