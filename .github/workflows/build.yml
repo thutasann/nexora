@@ -1,10 +1,10 @@
-name: Build the Nexora
+name: Build the Nexora and run benchmarks
 
 on:
   push:
-    branches: [master, feat/state, feat/dom]
+    branches: [master, feat/dom]
   pull_request:
-    branches: [master, feat/state, feat/dom]
+    branches: [master, feat/dom]
 
 jobs:
   build:
@@ -24,3 +24,6 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      - name: Run Benchmarks
+        run: cd benchmarks && npm install && npm run benchmarks

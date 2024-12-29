@@ -8,10 +8,8 @@
     "target": "ESNext",
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "strict": true,
-    "declaration": true,
-    "declarationDir": "./dist"
+    "strict": true
   },
-  "include": ["src/**/*"],
+  "include": ["*.tsx"],
   "exclude": ["node_modules"]
 }

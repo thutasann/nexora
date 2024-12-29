@@ -1,5 +1,5 @@
-import { measurePerformance, Nexora, render } from '../src';
-
+import { Nexora, render } from '../dist';
+import { measurePerformance } from './utils/measure';
 export async function mountBenchmark() {
   console.log('\n📊 Running Mount Benchmarks:');
 
