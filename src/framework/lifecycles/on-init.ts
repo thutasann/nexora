@@ -1,10 +1,6 @@
 import { OnInit } from '../../core';
 import { reactive } from '../state';
 
-/**
- * ## Component Init Callbacks Map ##
- * Store init callbacks for each component
- */
 const _componentInitCallbacks: OnInit.ComponentInitMap = new Map();
 const _componentInitResults: WeakMap<Function, Map<Function, any>> = new WeakMap();
 const _componentInitPromises: WeakMap<Function, Promise<any>> = new WeakMap();
