@@ -25,11 +25,5 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Change Benchmarks Directory
-        run: cd benchmarks
-
-      - name: Install Benchmarks Dependencies
-        run: npm install
-
       - name: Run Benchmarks
-        run: npm run benchmarks
+        run: cd benchmarks && npm install && npm run benchmarks
