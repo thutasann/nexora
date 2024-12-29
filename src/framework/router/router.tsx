@@ -4,7 +4,8 @@ import { createState } from '../state/reactive-state';
 import { RouterProvider } from './router-provider';
 
 /**
- * Router component
+ * Experimental Router component
+ * @experimental
  * @description - The Router component is used to manage the routing of the application.
  * @param children - The children of the Router component.
  * @returns The Router component.

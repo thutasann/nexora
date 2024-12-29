@@ -3,19 +3,14 @@ import { render } from '../dom/render';
 
 /**
  * ## Reactive State ##
- * @description - This class is used to manage the state of the components.
- * - Manages the state of the components.
- * - Provides a way to create and manage state for components.
- * - Uses a WeakMap to store the state of each component.
- * - Uses a WeakMap to store the index of the state for each component.
- * - Uses a WeakMap to store the current component function.
- * - Uses a WeakMap to store the root element.
+ * @description
+ * - This class is used to manage the state and reactivity of the components.
  */
 class ReactiveState {
-  public states: WeakMap<Function, Map<number, any>> = new WeakMap();
   public stateIndexes: WeakMap<Function, number> = new WeakMap();
   public currentComponentFn: Function | null = null;
-  public rootElement: DOMElement | null = null;
+  private rootElement: DOMElement | null = null;
+  private states: WeakMap<Function, Map<number, any>> = new WeakMap();
 
   /**
    * Creates a state for the given component.
@@ -45,11 +40,19 @@ class ReactiveState {
       componentStates.set(stateIndex, initialValue);
     }
 
+    /**
+     * Get the state for the given component.
+     * @returns The state for the given component.
+     */
     const getState = () => {
       const states = this.states.get(componentFn);
       return states?.get(stateIndex);
     };
 
+    /**
+     * Set the state for the given component.
+     * @param newValue - The new value of the state.
+     */
     const setState = (newValue: T | ((prev: T) => T)) => {
       const states = this.states.get(componentFn);
       if (!states) return;
