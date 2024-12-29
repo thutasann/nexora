@@ -12,8 +12,7 @@
     "prepare": "npm run build",
     "format": "npx prettier . --write -c .prettierrc",
     "example:production": "cd examples/nexora-production-app && npm run dev",
-    "example:dev": "npm run dev",
-    "benchmarks": "cd benchmarks && npm run benchmarks"
+    "example:dev": "npm run dev"
   },
   "keywords": [
     "javascript",
