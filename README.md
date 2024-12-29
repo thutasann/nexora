@@ -46,8 +46,18 @@ import { Nexora, onInit } from 'nexora';
 import { fetchTodos, fetchUsers, Todos, Users } from './fetch-data';
 
 export function OnInitSample() {
-  const todos = onInit<Todos[]>(fetchTodos);
-  const users = onInit<Users[]>(fetchUsers);
+  const [todos, setTodos] = onInit<Todos[]>(fetchTodos);
+  const [users, setUsers] = onInit<Users[]>(fetchUsers);
+
+  /** handler to delete a todo */
+  const handleDeleteTodo = (id: number) => {
+    setTodos(todos.filter((todo) => todo.id !== id));
+  };
+
+  /** handler to delete a user */
+  const handleDeleteUser = (id: number) => {
+    setUsers(users.filter((user) => user.id !== id));
+  };
 
   return (
     <div className='container'>
