@@ -50,7 +50,6 @@ export function executeInitCallbacks(componentFn: Function) {
       const promise = Promise.resolve(callback()).then((result) => {
         if (result !== undefined) {
           _componentInitResults.set(componentFn, result);
-          reactive.triggerUpdate(componentFn);
         }
         return result;
       });
