@@ -1,30 +1,18 @@
-import { Nexora, onInit } from '../../../../src';
+import { getInitResult, Nexora, onInit } from '../../../../src';
+import { fetchTodos, fetchUsers } from './fetch-data';
 
 export function OnInitSample() {
-  onInit(() => {
-    console.log('OnInitSample component mounted');
-  });
+  onInit(fetchTodos);
+  onInit(fetchUsers);
 
-  return (
-    <div>
-      <div className='container'>
-        <h2>OnInitSample</h2>
-      </div>
-      <OnInitSample2 />
-    </div>
-  );
-}
-
-export function OnInitSample2() {
-  onInit(async () => {
-    const data = await fetch('https://jsonplaceholder.typicode.com/todos');
-    const json = await data.json();
-    console.log('OnInitSample2 ==> ', json);
-  });
+  const todos = getInitResult<any[]>(OnInitSample);
+  const users = getInitResult<any[]>(OnInitSample);
 
   return (
     <div className='container'>
-      <h2>OnInitSample2</h2>
+      <h2>OnInit (Todos)</h2>
+      <p>Todos Length: {todos ? todos.length : 'Loading...'}</p>
+      <p>Users Length: {users ? users.length : 'Loading...'}</p>
     </div>
   );
 }

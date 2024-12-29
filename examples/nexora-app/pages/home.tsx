@@ -11,10 +11,10 @@ export function Home() {
   return (
     <div>
       <Header />
+      <OnInitSample />
       <ChildrenTest>
         <div>this is children</div>
       </ChildrenTest>
-      <OnInitSample />
       <Counter />
       <CounterTwo />
       <ToggleTest />
