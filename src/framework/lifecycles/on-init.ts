@@ -14,7 +14,7 @@ const _componentInitPromises: WeakMap<Function, Promise<any>> = new WeakMap();
  * @description - This function is used to register an init callback for a component.
  * @param callback - The callback to be executed when the component is initialized.
  */
-export function onInit(initFn: () => Promise<any>) {
+export function onInit<T>(initFn: () => Promise<T>): T {
   const currentComponent = reactive.currentComponentFn;
   if (!currentComponent) {
     throw new Error('onInit must be called within a component');
@@ -34,6 +34,9 @@ export function onInit(initFn: () => Promise<any>) {
       reactive.triggerUpdate(currentComponent);
     });
   }
+
+  const initResult = getInitResult<T>(currentComponent);
+  return initResult;
 }
 
 /**
@@ -59,10 +62,16 @@ export function executeInitCallbacks(componentFn: Function) {
   return _componentInitResults.get(componentFn);
 }
 
-export function getInitResult<T>(component: Function): T | null {
+/**
+ * ## Get Init Result ##
+ * @description - Get the result of the init function for a component
+ * @param component - The component to get the result for.
+ * @returns - The result of the init function for the component.
+ */
+function getInitResult<T>(component: Function): T {
   const signal = _componentInitResults.get(component);
   if (!signal) {
-    return null;
+    throw new Error('Init result not found for component');
   }
   const [value] = signal;
   return value();
