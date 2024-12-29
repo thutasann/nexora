@@ -9,6 +9,7 @@ const _componentInitPromises: WeakMap<Function, Promise<any>> = new WeakMap();
  * ## onInit Lifecycle ##
  * @description - This function is used to register an init callback for a component.
  * @param callback - The callback to be executed when the component is initialized.
+ * @returns - The result of the init callback.
  */
 export function onInit<T>(initFn: () => Promise<T>): T {
   const currentComponent = reactive.currentComponentFn;
