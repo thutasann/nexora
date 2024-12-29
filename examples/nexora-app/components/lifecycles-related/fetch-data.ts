@@ -1,5 +1,12 @@
-export type Todos = any[];
-export type Users = any[];
+export type Todos = {
+  id: number;
+  title: string;
+};
+
+export type Users = {
+  id: number;
+  name: string;
+};
 
 export async function fetchTodos() {
   const res = await fetch('https://jsonplaceholder.typicode.com/todos', {

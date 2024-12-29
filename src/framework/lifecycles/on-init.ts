@@ -8,10 +8,10 @@ const _componentInitPromises: WeakMap<Function, Promise<any>> = new WeakMap();
 /**
  * ## onInit Lifecycle ##
  * @description - This function is used to register an init callback for a component.
- * @param callback - The callback to be executed when the component is initialized.
- * @returns - The result of the init callback.
+ * @param initFn - The function to be executed when the component is initialized.
+ * @returns A tuple containing the result of the init function and a function to set the result.
  */
-export function onInit<T>(initFn: () => Promise<T>): T {
+export function onInit<T>(initFn: () => Promise<T>): [T, (newValue: T) => void] {
   const currentComponent = reactive.currentComponentFn;
   if (!currentComponent) {
     throw new Error('onInit must be called within a component');
@@ -26,16 +26,17 @@ export function onInit<T>(initFn: () => Promise<T>): T {
 
   const resultsMap = _componentInitResults.get(currentComponent)!;
   if (!resultsMap.has(initFn)) {
-    resultsMap.set(initFn, reactive.createState(null));
+    const [getValue, setValue] = reactive.createState<T | null>(null);
+    resultsMap.set(initFn, [getValue, setValue]);
+
     initFn().then((result) => {
-      const [_, setResult] = resultsMap.get(initFn)!;
-      setResult(result);
+      setValue(result);
       reactive.triggerUpdate(currentComponent);
     });
   }
 
-  const initResult = getInitResult<T>(currentComponent, initFn);
-  return initResult;
+  const [getValue, setValue] = resultsMap.get(initFn);
+  return [getValue(), setValue];
 }
 
 /**
