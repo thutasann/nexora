@@ -1,4 +1,4 @@
-import { Nexora, render } from '../src';
+import { Nexora, render } from '../dist';
 import { measurePerformance } from './utils';
 
 export async function diffBenchmark() {
