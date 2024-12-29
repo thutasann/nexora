@@ -2,9 +2,9 @@ name: Build the Nexora
 
 on:
   push:
-    branches: [master, feat/state, feat/dom]
+    branches: [master, feat/dom]
   pull_request:
-    branches: [master, feat/state, feat/dom]
+    branches: [master, feat/dom]
 
 jobs:
   build:
@@ -24,3 +24,6 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      - name: Run benchmarks
+        run: npm run benchmarks

@@ -13,7 +13,7 @@
     "format": "npx prettier . --write -c .prettierrc",
     "example:production": "cd examples/nexora-production-app && npm run dev",
     "example:dev": "npm run dev",
-    "benchmark": "npx tsx benchmarks/index.tsx"
+    "benchmarks": "npx tsx benchmarks/index.tsx"
   },
   "keywords": [
     "javascript",
