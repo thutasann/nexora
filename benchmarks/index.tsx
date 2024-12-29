@@ -1,8 +1,8 @@
-import { reporter } from '../src/core/utilities/measure/report';
 import { diffBenchmark } from './diff.benchmark';
 import { mountBenchmark } from './mount.benchmark';
 import { renderBenchmark } from './render.benchmark';
 import './setup';
+import { reporter } from './utils';
 
 async function runBenchmarks() {
   console.log('🚀 Starting Nexora Benchmarks...\n');
